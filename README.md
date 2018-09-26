@@ -14,7 +14,7 @@ Start a docker container with this directory mounted to `/ros_lib`
 Install whatever ROS package you want. The packages in the container are sometime a bit outdated, so it is updated.
 
     apt update
-    apt install -y -qq ros-kinetic-actionlib-tutorials ros-kinetic-control-msgs ros-kinetic-dynamic-reconfigure ros-kinetic-gazebo-msgs ros-kinetic-geometry-msgs ros-kinetic-hector-nav-msgs ros-kinetic-nav-msgs ros-kinetic-pcl-msgs ros-kinetic-hector-slam ros-kinetic-rospy-tutorials ros-kinetic-turtle-actionlib ros-kinetic-turtlesim ros-kinetic-smach-msgs ros-kinetic-map-msgs ros-kinetic-roscpp-tutorials
+    apt install -y -qq ros-kinetic-actionlib-tutorials ros-kinetic-control-msgs ros-kinetic-dynamic-reconfigure ros-kinetic-gazebo-msgs ros-kinetic-geometry-msgs ros-kinetic-hector-nav-msgs ros-kinetic-nav-msgs ros-kinetic-pcl-msgs ros-kinetic-hector-slam ros-kinetic-rospy-tutorials ros-kinetic-turtle-actionlib ros-kinetic-turtlesim ros-kinetic-smach-msgs ros-kinetic-map-msgs ros-kinetic-roscpp-tutorials ros-kinetic-can-msgs
     apt dist-upgrade -y -qq
 
 Create a ROS workspace
