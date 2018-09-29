@@ -1,0 +1,48 @@
+image: docker:stable
+
+variables:
+  DOCKER_DRIVER: overlay2
+  CONTAINER_SNAPSHOT_IMAGE: $CI_REGISTRY_IMAGE/snapshots:$CI_COMMIT_REF_SLUG
+
+services:
+  - docker:dind
+
+stages:
+  - build_image
+  - build_library
+  - test
+  - deploy
+
+Build Docker Image:
+  stage: build_image
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - docker build --tag $CONTAINER_SNAPSHOT_IMAGE .
+    - docker push        $CONTAINER_SNAPSHOT_IMAGE
+
+Build ROS messages:
+  stage: build_library
+  image: $CONTAINER_SNAPSHOT_IMAGE
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" >> ~/.ssh/known_hosts
+  script:
+    - ./build.bash
+    - ./deploy.bash
+
+test:
+  stage: test
+  image: $CONTAINER_SNAPSHOT_IMAGE
+  script:
+    - echo "Test"
+
+deploy:
+  stage: deploy
+  image: $CONTAINER_SNAPSHOT_IMAGE
+  script:
+    - echo "Deploy"

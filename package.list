@@ -1,0 +1,16 @@
+actionlib-tutorials
+can-msgs
+control-msgs
+dynamic-reconfigure
+gazebo-msgs
+geometry-msgs
+hector-nav-msgs
+hector-slam
+map-msgs
+nav-msgs
+pcl-msgs
+roscpp-tutorials
+rospy-tutorials
+smach-msgs
+turtle-actionlib
+turtlesim
