@@ -13,4 +13,5 @@ roscpp-tutorials
 rospy-tutorials
 smach-msgs
 turtle-actionlib
+turtlebot3-msgs
 turtlesim
